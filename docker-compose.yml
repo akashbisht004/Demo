@@ -1,0 +1,39 @@
+services:
+
+  app:
+    build: .
+    container_name: hackathon-app
+
+    ports:
+      - "3000:3000"
+
+    environment:
+      DATABASE_URL: "postgresql://app:password@postgres:5432/hackathon"
+      PORT: 3000
+
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+
+  postgres:
+    image: postgres:17
+    container_name: hackathon-postgres
+
+    environment:
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: hackathon
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U app -d hackathon"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+
+volumes:
+  postgres_data:
