@@ -8,7 +8,7 @@ const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 
-app.get("/api/health", (_req, res) => {
+app.get("/api/healtooiiodhsgh", (_req, res) => {
   res.json({ status: "ok" });
 });
 
